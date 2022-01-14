@@ -9,13 +9,16 @@ class Scoreboard:
         self.score_turtle.goto(0,270)
         self.score_turtle.hideturtle()
         self.score_value=0
-        self.final_score="Score:"+str(self.score_value)
+        self.high_score=0
+        self.final_score="Score:"+str(self.score_value)+" | High Score:"+str(self.high_score)
         self.score_turtle.write(self.final_score,False,"center",font=('Arial', 20, 'normal'))
         
     
      def increase(self):
         self.score_value+=1
-        self.final_score="Score:"+str(self.score_value)
+        if (self.score_value>self.high_score):
+           self.high_score=self.score_value
+        self.final_score="Score:"+str(self.score_value)+"High Score:"+str(self.high_score)
         self.score_turtle.clear()
         self.score_turtle.write(self.final_score,False,"center",font=('Arial', 20, 'normal'))
 
