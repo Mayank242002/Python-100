@@ -2,13 +2,20 @@ from email import message
 from tkinter import *
 from tkinter import messagebox
 import random
+import json
 
 
 def save():
     website_info=website_entry.get()
     email_info=email_username_entry.get()
     password_info=password_entry.get()  
-    final_text=website_info+" | "+email_info+" | "+password_info+"\n"
+    #final_text=website_info+" | "+email_info+" | "+password_info+"\n"
+    new_data={
+        website_info:{
+            "email":email_info,
+            "password":password_info
+        }
+    }
 
     if ((len(website_info)==0) | (len(password_info)==0)):
         messagebox.showwarning(title="Opps",message="Please don't leave any fields empty")
@@ -16,11 +23,28 @@ def save():
     else:
          is_ok=messagebox.askokcancel(title=website_info,message=f"These are the details entered:\nEmail:{email_info} \nPassword: {password_info} \nIs it okay to save?")
          if (is_ok):
-            file=open("Day_29_Password_manager/data.txt","a")
-            file.write(final_text)
-            file.close()
-            website_entry.delete(0,'end')
-            password_entry.delete(0,'end')
+            try:
+                file=open("Day_29_Password_manager/data.json","r")
+               
+                data=json.load(file)
+                
+
+            except FileNotFoundError:
+                 file=open("Day_29_Password_manager/data.json","w")
+                 json.dump(new_data,file,indent= 4)
+                
+            else:
+                data.update(new_data)
+
+                file=open("Day_29_Password_manager/data.json","w")
+                #save updated data
+                json.dump(data,file, indent=4)
+
+
+
+            finally:
+               website_entry.delete(0,'end')
+               password_entry.delete(0,'end')
 
 
 def password_generator():
@@ -47,9 +71,22 @@ def password_generator():
 
 
 
-   
+def find_password():
+    try:
+       file=open("Day_29_Password_manager/data.json","r")
+      
+    except FileNotFoundError:
+        messagebox.showwarning(message="NO Data File Found")
+    else:
+        data=json.load(file)
+        website_info=website_entry.get()
+    
+        if website_info in data:
+           text_to_show="Email: "+data[website_info]["email"]+"\n"+"Password: "+data[website_info]["password"]
+           messagebox.showinfo(title=website_info,message=text_to_show)
+        else:
+           messagebox.showwarning(message="No details for the Website exists")
 
-   
 
 window=Tk()
 window.title("Password Manager")
@@ -64,10 +101,10 @@ canvas.grid(column=1,row=0)
 
 website_label=Label(text="Website:")
 website_label.grid(column=0,row=1)
-website_label.config(padx=16,pady=16)
 
-website_entry=Entry(width=40)
-website_entry.grid(column=1,row=1,columnspan=2)
+
+website_entry=Entry(width=25)
+website_entry.grid(column=1,row=1,columnspan=1)
 website_entry.focus()
 
 email_username_label=Label(text="Email/Username:")
@@ -77,6 +114,8 @@ email_username_label.config(padx=16,pady=16)
 email_username_entry=Entry(width=43)
 email_username_entry.grid(column=1,row=2,columnspan=2)
 email_username_entry.insert(0,"msngi24july@gmail.com")
+
+
 password_label=Label(text="Password:")
 password_label.grid(column=0,row=3)
 password_label.config(padx=14,pady=16)
@@ -89,6 +128,10 @@ generate_password_button.grid(column=2,row=3)
 
 add_button=Button(text="Add",highlightthickness=0,width=38,command=save)
 add_button.grid(column=1,row=4,columnspan=2)
+
+search_button=Button(text="Search",width=10,command=find_password)
+search_button.grid(column=2,row=1)
+
 
 
 
