@@ -13,20 +13,26 @@ class Quiz_brain:
         else:
             return True
 
-    def check_answer(self,user_input,current_question):
-        if (user_input==current_question.answer):
+    def check_answer(self,user_input):
+        if (user_input==self.current_question.answer):
             self.score+=1
-            print("You got it right.")
+            return True
         else:
-            print("You got it Wrong.")
-        print("Total score:",self.score)
+            return False
+
 
     def next_question(self):
-        current_question=self.question_list[self.question_number-1]
-        q_text=html.unescape(current_question.text)
-        user_input=input(f"Q.{self.question_number}: {q_text}. True/False?:")
-        self.check_answer(user_input,current_question)
-        self.question_number+=1
+        if (self.question_number<=10):
+            self.current_question=self.question_list[self.question_number-1]
+            self.question_number+=1
+            q_text=html.unescape(self.current_question.text)
+        
+            return f"Q.{self.question_number-1}: {q_text}"
+        
+        
+        
+
+    
 
    
         

@@ -4,5 +4,3 @@ class Question:
         self.answer=answer
 
 
-new_q=Question("what is name?","Mayank")
-print(new_q.answer)

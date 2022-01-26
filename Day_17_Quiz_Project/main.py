@@ -1,6 +1,7 @@
 from question_model import  Question
 from data import question_data
 from quiz_brain import Quiz_brain
+from ui import QuizInterface
 question_bank=[]
 
 for question in question_data:
@@ -10,6 +11,7 @@ for question in question_data:
 
 quiz=Quiz_brain(question_bank)
 
+quiz_ui=QuizInterface(quiz)
 
 while quiz.still_question():
     quiz.next_question()
