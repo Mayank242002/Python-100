@@ -17,4 +17,4 @@ while quiz.still_question():
 
 
 print("You completed the quiz")
-print("Your final score:",quiz.score,"/",quiz.question_number)
+print("Your final score:",quiz.score,"/",quiz.question_number-1)
