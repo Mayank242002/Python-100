@@ -4,7 +4,7 @@ from twilio.rest import Client
 API_ENDPOINT="https://api.openweathermap.org/data/2.5/onecall"
 API_KEY="c330fc44a97066547ea044f31c873fde"
 account_sid = 'AC71a6feda8258f6ebdb6d8d39f07f56cf'
-auth_token = 'a3506abb37fcb87765df5653c5e8d303'
+auth_token = '4c57c7916bc12af9f2c4596e9f5bdb2d'
 
 
 weather_params={
